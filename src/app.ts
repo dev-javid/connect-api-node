@@ -6,7 +6,7 @@ import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from './config';
 import hpp from 'hpp';
 import compression from 'compression';
 import { connect, set } from 'mongoose';
-import { dbConnection } from 'databases';
+import { dbConnection } from './databases';
 
 class App {
   public app: express.Application;
