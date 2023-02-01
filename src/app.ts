@@ -27,6 +27,7 @@ class App {
   }
 
   private initializeMiddlewares() {
+    this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
     this.app.use(helmet());
     this.app.use(cors());
     this.app.use(express.json());
