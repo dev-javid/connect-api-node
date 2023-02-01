@@ -23,7 +23,7 @@ class App {
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
-    // this.initializeSwagger();
+    this.initializeSwagger();
     this.initializeErrorHandling();
   }
   public listen() {
