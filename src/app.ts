@@ -1,12 +1,8 @@
-import compression from 'compression';
-import cors from 'cors';
 import express from 'express';
-import helmet from 'helmet';
-import hpp from 'hpp';
-import { itemsRouter } from 'items/items.router';
-import morgan from 'morgan';
-import { LOG_FORMAT, ORIGIN, CREDENTIALS } from './config';
-import { stream } from './utils/logger';
+import cors from "cors";
+import helmet from "helmet";
+import { itemsRouter } from "./items/items.router";
+import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from './config';
 
 class App {
   public app: express.Application;
@@ -31,12 +27,9 @@ class App {
   }
 
   private initializeMiddlewares() {
-    this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
-    this.app.use(hpp());
     this.app.use(helmet());
-    this.app.use(compression());
+    this.app.use(cors());
     this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
     this.app.use("/api/menu/items", itemsRouter);
   }
 }
