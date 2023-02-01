@@ -16,9 +16,11 @@ class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
+
   constructor(routes: Routes[]) {
-    this.port = parseInt(process.env.PORT as string, 10);
     this.app = express();
+    this.env = NODE_ENV || 'development';
+    this.port = PORT || 3000;
  
     this.connectToDatabase();
     this.initializeMiddlewares();
@@ -26,11 +28,16 @@ class App {
     this.initializeSwagger();
     this.initializeErrorHandling();
   }
+
   public listen() {
     this.app.listen(this.port, () => {
-      console.log(`Listening on port ${this.port}`);
+      console.info(`=================================`);
+      console.info(`======= ENV: ${this.env} =======`);
+      console.info(`🚀 App listening on the port ${this.port}`);
+      console.info(`=================================`);
     });
   }
+
   private initializeMiddlewares() {
     this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
     this.app.use(hpp());
