@@ -4,6 +4,7 @@ import helmet from "helmet";
 import { itemsRouter } from "./items/items.router";
 import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from './config';
 import hpp from 'hpp';
+import compression from 'compression';
 
 class App {
   public app: express.Application;
@@ -32,6 +33,7 @@ class App {
     this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(cors());
+    this.app.use(compression());
     this.app.use(express.json());
     this.app.use("/api/menu/items", itemsRouter);
   }
