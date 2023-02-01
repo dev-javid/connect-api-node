@@ -5,6 +5,7 @@ import { itemsRouter } from "./items/items.router";
 import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from './config';
 import hpp from 'hpp';
 import compression from 'compression';
+import { connect, set } from 'mongoose';
 
 class App {
   public app: express.Application;
@@ -15,7 +16,7 @@ class App {
     this.port = parseInt(process.env.PORT as string, 10);
     this.app = express();
  
-    //this.connectToDatabase();
+    this.connectToDatabase();
     this.initializeMiddlewares();
     //this.initializeRoutes(routes);
     // this.initializeSwagger();
@@ -26,6 +27,14 @@ class App {
     this.app.listen(this.port, () => {
       console.log(`Listening on port ${this.port}`);
     });
+  }
+
+  private connectToDatabase() {
+    if (this.env !== 'production') {
+      set('debug', true);
+    }
+
+    connect(dbConnection.url);
   }
 
   private initializeMiddlewares() {
