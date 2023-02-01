@@ -7,18 +7,19 @@ import hpp from 'hpp';
 import compression from 'compression';
 import { connect, set } from 'mongoose';
 import { dbConnection } from './databases';
+import { Routes } from './interfaces/routes.interface';
 
 class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
-  constructor() {
+  constructor(routes: Routes[]) {
     this.port = parseInt(process.env.PORT as string, 10);
     this.app = express();
  
     this.connectToDatabase();
     this.initializeMiddlewares();
-    //this.initializeRoutes(routes);
+    this.initializeRoutes(routes);
     // this.initializeSwagger();
     // this.initializeErrorHandling();
   }
@@ -43,6 +44,12 @@ class App {
     // }
 
     connect(dbConnection.url);
+  }
+
+  private initializeRoutes(routes: Routes[]) {
+    routes.forEach(route => {
+      this.app.use('/', route.router);
+    });
   }
 }
 export default App;
