@@ -21,7 +21,7 @@ class App {
     this.app = express();
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
- 
+
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
@@ -29,12 +29,26 @@ class App {
     this.initializeErrorHandling();
   }
 
-  public listen() {
-    this.app.listen(this.port, () => {
-      console.info(`=================================`);
-      console.info(`======= ENV: ${this.env} =======`);
-      console.info(`🚀 App listening on the port ${this.port}`);
-      console.info(`=================================`);
+  public start() {
+    if (this.env !== 'production') {
+      set('debug', true);
+    }
+    // As required by cyclic serverless we need to connect database for each request
+    // https://docs.cyclic.sh/how-to/using-mongo-db#connections-in-a-serverless-runtime
+    connect(dbConnection.url, (error) => {
+      if (error) {
+        console.info(`=================================`);
+        console.info(`Error starting server`);
+        console.error(error);
+        console.info(`=================================`);
+        return false;
+      }
+      this.app.listen(this.port, () => {
+        console.info(`=================================`);
+        console.info(`======= ENV: ${this.env} =======`);
+        console.info(`🚀 App listening on the port ${this.port}`);
+        console.info(`=================================`);
+      });
     });
   }
 

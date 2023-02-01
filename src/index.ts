@@ -9,4 +9,4 @@ validateEnv();
 
 const app = new App([new IndexRoute(), new UsersRoute(), new AuthRoute(), new LicensesRoute()]);
 
-app.listen();
+app.start();
