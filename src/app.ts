@@ -8,6 +8,7 @@ import compression from 'compression';
 import { connect, set } from 'mongoose';
 import { dbConnection } from './databases';
 import { Routes } from './interfaces/routes.interface';
+import errorMiddleware from './middlewares/error.middleware';
 
 class App {
   public app: express.Application;
@@ -21,7 +22,7 @@ class App {
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     // this.initializeSwagger();
-    // this.initializeErrorHandling();
+    this.initializeErrorHandling();
   }
   public listen() {
     this.app.listen(this.port, () => {
@@ -51,5 +52,10 @@ class App {
       this.app.use('/', route.router);
     });
   }
+
+  private initializeErrorHandling() {
+    this.app.use(errorMiddleware);
+  }
+
 }
 export default App;
