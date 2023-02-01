@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { itemsRouter } from "./items/items.router";
 import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from './config';
+import hpp from 'hpp';
 
 class App {
   public app: express.Application;
@@ -28,6 +29,7 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
+    this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(cors());
     this.app.use(express.json());
