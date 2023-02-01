@@ -5,6 +5,8 @@ import { itemsRouter } from "./items/items.router";
 import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from './config';
 import hpp from 'hpp';
 import compression from 'compression';
+import { connect, set } from 'mongoose';
+import { dbConnection } from 'databases';
 
 class App {
   public app: express.Application;
@@ -14,7 +16,7 @@ class App {
     this.port = parseInt(process.env.PORT as string, 10);
     this.app = express();
  
-    //this.connectToDatabase();
+    this.connectToDatabase();
     this.initializeMiddlewares();
     //this.initializeRoutes(routes);
     // this.initializeSwagger();
@@ -33,6 +35,14 @@ class App {
     this.app.use(compression());
     this.app.use(express.json());
     this.app.use("/api/menu/items", itemsRouter);
+  }
+
+  private connectToDatabase() {
+    if (this.env !== 'production') {
+      set('debug', true);
+    }
+
+    connect(dbConnection.url);
   }
 }
 export default App;
