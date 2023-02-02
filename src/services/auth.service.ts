@@ -52,6 +52,8 @@ class AuthService {
     const minutes = Number(TOKEN_LIFETIME_IN_MINUTES);
     const expiresIn = minutes * 60;
 
+    console.log('TOKEN_LIFETIME_IN_MINUTES',TOKEN_LIFETIME_IN_MINUTES)
+
     const token = sign(dataStoredInToken, secretKey, { expiresIn });
     return { expiresIn, token };
   }
