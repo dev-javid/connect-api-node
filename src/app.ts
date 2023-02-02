@@ -32,7 +32,6 @@ class App {
       set('debug', true);
     }
 
-    console.log(dbConnection.url)
     // As required by cyclic serverless we need to connect database for each request
     // https://docs.cyclic.sh/how-to/using-mongo-db#connections-in-a-serverless-runtime
     connect(DB_CONNECTION, {
