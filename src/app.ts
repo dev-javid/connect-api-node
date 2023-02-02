@@ -6,7 +6,6 @@ import { NODE_ENV, PORT, DB_CONNECTION, ORIGIN, CREDENTIALS } from './config';
 import hpp from 'hpp';
 import compression from 'compression';
 import { connect, set } from 'mongoose';
-import { dbConnection } from './databases';
 import { Routes } from './interfaces/routes.interface';
 import errorMiddleware from './middlewares/error.middleware';
 import swaggerJSDoc from 'swagger-jsdoc';
