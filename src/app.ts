@@ -2,7 +2,7 @@ import express from 'express';
 import cors from "cors";
 import helmet from "helmet";
 import { itemsRouter } from "./items/items.router";
-import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from './config';
+import { NODE_ENV, PORT, DB_CONNECTION, ORIGIN, CREDENTIALS } from './config';
 import hpp from 'hpp';
 import compression from 'compression';
 import { connect, set } from 'mongoose';
@@ -22,7 +22,6 @@ class App {
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
 
-    this.connectToDatabase();
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     this.initializeSwagger();
@@ -33,9 +32,13 @@ class App {
     if (this.env !== 'production') {
       set('debug', true);
     }
+
+    console.log(dbConnection.url)
     // As required by cyclic serverless we need to connect database for each request
     // https://docs.cyclic.sh/how-to/using-mongo-db#connections-in-a-serverless-runtime
-    connect(dbConnection.url, (error) => {
+    connect(DB_CONNECTION, {
+      ssl: true,
+    },(error) => {
       if (error) {
         console.info(`=================================`);
         console.info(`Error starting server`);
@@ -60,14 +63,6 @@ class App {
     this.app.use(compression());
     this.app.use(express.json());
     this.app.use("/api/menu/items", itemsRouter);
-  }
-
-  private connectToDatabase() {
-    if (this.env !== 'production') {
-      set('debug', true);
-    }
-
-    connect(dbConnection.url);
   }
 
   private initializeRoutes(routes: Routes[]) {
