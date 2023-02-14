@@ -12,6 +12,7 @@ class WebhookController {
         const verifyToken = queryParams["hub.verify_token"];
         if (verifyToken == WHATSAPP_VERIFY_TOKEN) {
           let challenge = queryParams["hub.challenge"];
+          res.status(200).json(Number(challenge));
           const response = {
             "statusCode": 200,
             "body": challenge,
