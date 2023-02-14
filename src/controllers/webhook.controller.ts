@@ -13,12 +13,12 @@ class WebhookController {
         if (verifyToken == WHATSAPP_VERIFY_TOKEN) {
           let challenge = queryParams["hub.challenge"];
           res.status(200).json(Number(challenge));
-          const response = {
-            "statusCode": 200,
-            "body": challenge,
-            "isBase64Encoded": false
-          };
-          res.status(200).json(response);
+          // const response = {
+          //   "statusCode": 200,
+          //   "body": challenge,
+          //   "isBase64Encoded": false
+          // };
+          // res.status(200).json(response);
         } else {
           const responseBody = "Error, wrong validation token";
           const response = {
