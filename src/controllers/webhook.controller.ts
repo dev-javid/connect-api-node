@@ -13,36 +13,19 @@ class WebhookController {
         if (verifyToken == WHATSAPP_VERIFY_TOKEN) {
           let challenge = queryParams["hub.challenge"];
           res.status(200).json(Number(challenge));
-          // const response = {
-          //   "statusCode": 200,
-          //   "body": challenge,
-          //   "isBase64Encoded": false
-          // };
-          // res.status(200).json(response);
         } else {
           const responseBody = "Error, wrong validation token";
-          const response = {
-            "statusCode": 403,
-            "body": JSON.stringify(responseBody),
-            "isBase64Encoded": false
-          };
-          res.status(200).json(response);
+          res.status(403).json(JSON.stringify(responseBody));
         }
       } else {
         const responseBody = "Error, wrong mode";
-        const response = {
-          "statusCode": 403,
-          "body": JSON.stringify(responseBody),
-          "isBase64Encoded": false
-        };
-        res.status(200).json(response);
+        res.status(403).json(JSON.stringify(responseBody));
       }
     }
   }
 
   public post = async (req: Request, res: Response, next: NextFunction) => {
-    let body = JSON.parse(req.body)
-    let entries = body.entry;
+    let entries = req.body.entry;
     for (let entry of entries) {
       for (let change of entry.changes) {
         let value = change.value;
@@ -61,7 +44,7 @@ class WebhookController {
                   "body": JSON.stringify(responseBody),
                   "isBase64Encoded": false
                 };
-                res.status(200).json(response);
+                res.status(200).json(responseBody);
               }
             }
           }
