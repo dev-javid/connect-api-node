@@ -14,7 +14,7 @@ class WebhookController {
           let challenge = queryParams["hub.challenge"];
           const response = {
             "statusCode": 200,
-            "body": parseInt(challenge),
+            "body": challenge,
             "isBase64Encoded": false
           };
           res.status(200).json(response);
