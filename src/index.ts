@@ -10,5 +10,4 @@ import WebhookRoute from './routes/webhook.route';
 validateEnv();
 
 const app = new App([new IndexRoute(), new UsersRoute(), new AuthRoute(), new LicensesRoute(), new WebhookRoute()]);
-
 app.start();
