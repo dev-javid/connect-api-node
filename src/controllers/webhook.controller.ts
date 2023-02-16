@@ -1,16 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
 import https from "https";
-import { WHATSAPP_TOKEN, WHATSAPP_VERIFY_TOKEN } from '../config';
+import { WHATSAPP_TOKEN, WHATSAPP_VERIFY_TOKEN, WHATSAPP_TOKEN_SHADAB, WHATSAPP_VERIFY_TOKEN_SHADAB } from '../config';
 
 class WebhookController {
 
   public get = async (req: Request, res: Response, next: NextFunction) => {
+    const customerId: string = req.params.customerId;
+    const token = customerId == 'Shadab' ? WHATSAPP_VERIFY_TOKEN_SHADAB : WHATSAPP_VERIFY_TOKEN;
     let queryParams = req?.query;
     if (queryParams != null) {
       const mode = queryParams["hub.mode"];
       if (mode == "subscribe") {
         const verifyToken = queryParams["hub.verify_token"];
-        if (verifyToken == WHATSAPP_VERIFY_TOKEN) {
+        if (verifyToken == token) {
           let challenge = queryParams["hub.challenge"];
           res.status(200).json(Number(challenge));
         } else {
@@ -25,6 +27,8 @@ class WebhookController {
   }
 
   public post = async (req: Request, res: Response, next: NextFunction) => {
+    const customerId: string = req.params.customerId;
+    const token = customerId == 'Shadab' ? WHATSAPP_TOKEN_SHADAB : WHATSAPP_TOKEN;
     let entries = req.body.entry;
     for (let entry of entries) {
       for (let change of entry.changes) {
@@ -36,8 +40,8 @@ class WebhookController {
               if (message.type === 'text') {
                 let from = message.from;
                 let message_body = message.text.body;
-                let reply_message = "Ack from AWS lambda: " + message_body;
-                sendReply(phone_number_id, WHATSAPP_TOKEN, from, reply_message);
+                let reply_message = "You typed: " + message_body;
+                sendReply(phone_number_id, token, from, reply_message);
                 const responseBody = "Done";
                 const response = {
                   "statusCode": 200,

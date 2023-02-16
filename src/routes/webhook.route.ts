@@ -12,8 +12,8 @@ class WebhookRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, this.controller.get);
-    this.router.post(`${this.path}`, this.controller.post);
+    this.router.get(`${this.path}/:customerId`, this.controller.get);
+    this.router.post(`${this.path}/:customerId`, this.controller.post);
   }
 }
 

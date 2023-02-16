@@ -37,12 +37,12 @@ class UserService {
   public async updateUser(userId: string, userData: UpdateUserDto): Promise<User> {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
-    if (userData.password) {
-      const hashedPassword = await hash(userData.password, 10);
-      userData = { ...userData, password: hashedPassword };
-    }
+    const findUser: User = await this.users.findByIdAndDelete(userId);
+    if (!findUser) throw new HttpException(409, "User doesn't exist");
 
-    const updateUserById: User = await this.users.findByIdAndUpdate(userId, { userData });
+    const hashedPassword = await hash(userData.password, 10);
+
+    const updateUserById: User = await this.users.findByIdAndUpdate(userId, { ...findUser, password: hashedPassword });
     if (!updateUserById) throw new HttpException(409, "User doesn't exist");
 
     return updateUserById;
