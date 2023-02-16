@@ -32,24 +32,32 @@ class App {
       set('debug', true);
     }
 
-    // As required by cyclic serverless we need to connect database for each request
-    // https://docs.cyclic.sh/how-to/using-mongo-db#connections-in-a-serverless-runtime
-    connect(DB_CONNECTION, {
-      ssl: true,
-    },(error) => {
-      if (error) {
-        console.info(`=================================`);
-        console.info(`Error starting server`);
-        console.error(error);
-        console.info(`=================================`);
-        return false;
-      }
-      this.app.listen(this.port, () => {
-        console.info(`=================================`);
-        console.info(`======= ENV: ${this.env} =======`);
-        console.info(`🚀 App listening on the port ${this.port}`);
-        console.info(`=================================`);
-      });
+    // // // // As required by cyclic serverless we need to connect database for each request
+    // // // // https://docs.cyclic.sh/how-to/using-mongo-db#connections-in-a-serverless-runtime
+    // // // connect(DB_CONNECTION, {
+    // // //   ssl: true,
+    // // // },(error) => {
+    // // //   if (error) {
+    // // //     console.info(`=================================`);
+    // // //     console.info(`Error starting server`);
+    // // //     console.error(error);
+    // // //     console.info(`=================================`);
+    // // //     return false;
+    // // //   }
+    // // //   this.app.listen(this.port, () => {
+    // // //     console.info(`=================================`);
+    // // //     console.info(`======= ENV: ${this.env} =======`);
+    // // //     console.info(`🚀 App listening on the port ${this.port}`);
+    // // //     console.info(`=================================`);
+    // // //   });
+    // // // });
+
+    
+    this.app.listen(this.port, () => {
+      console.info(`=================================`);
+      console.info(`======= ENV: ${this.env} =======`);
+      console.info(`🚀 App listening on the port ${this.port}`);
+      console.info(`=================================`);
     });
   }
 
