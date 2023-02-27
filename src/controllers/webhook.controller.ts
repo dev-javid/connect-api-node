@@ -29,11 +29,9 @@ class WebhookController {
   public post = async (req: Request, res: Response, next: NextFunction) => {
     const customerId: string = req.params.customerId;
     const token = customerId == 'Shadab' ? WHATSAPP_TOKEN_SHADAB : WHATSAPP_TOKEN;
-    console.log("***********************");
-    console.log("");
-    console.log(req.body);
-    console.log("");
-    console.log("***********************");
+    console.log("\n\n");
+    console.log(JSON.stringify(req.body));
+    console.log("\n\n");
     let entries = req.body.entry;
     for (let entry of entries) {
       for (let change of entry.changes) {
