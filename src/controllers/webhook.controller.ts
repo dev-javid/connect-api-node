@@ -32,6 +32,7 @@ class WebhookController {
     console.log("\n\n");
     console.log(JSON.stringify(req.body));
     console.log("\n\n");
+    return res.status(200);
     let entries = req.body.entry;
     for (let entry of entries) {
       for (let change of entry.changes) {
