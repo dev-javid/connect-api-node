@@ -32,33 +32,35 @@ class WebhookController {
     console.log("\n\n");
     console.log(JSON.stringify(req.body));
     console.log("\n\n");
-    return res.status(200);
-    let entries = req.body.entry;
-    for (let entry of entries) {
-      for (let change of entry.changes) {
-        let value = change.value;
-        if (value != null) {
-          let phone_number_id = value.metadata.phone_number_id;
-          if (value.messages != null) {
-            for (let message of value.messages) {
-              if (message.type === 'text') {
-                let from = message.from;
-                let message_body = message.text.body;
-                let reply_message = "You typed: " + message_body;
-                sendReply(phone_number_id, token, from, reply_message);
-                const responseBody = "Done";
-                const response = {
-                  "statusCode": 200,
-                  "body": JSON.stringify(responseBody),
-                  "isBase64Encoded": false
-                };
-                res.status(200).json(responseBody);
-              }
-            }
-          }
-        }
-      }
-    }
+    res.status(200).json({
+      result: true
+    });
+  //   let entries = req.body.entry;
+  //   for (let entry of entries) {
+  //     for (let change of entry.changes) {
+  //       let value = change.value;
+  //       if (value != null) {
+  //         let phone_number_id = value.metadata.phone_number_id;
+  //         if (value.messages != null) {
+  //           for (let message of value.messages) {
+  //             if (message.type === 'text') {
+  //               let from = message.from;
+  //               let message_body = message.text.body;
+  //               let reply_message = "You typed: " + message_body;
+  //               sendReply(phone_number_id, token, from, reply_message);
+  //               const responseBody = "Done";
+  //               const response = {
+  //                 "statusCode": 200,
+  //                 "body": JSON.stringify(responseBody),
+  //                 "isBase64Encoded": false
+  //               };
+  //               res.status(200).json(responseBody);
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
   };
 }
 
